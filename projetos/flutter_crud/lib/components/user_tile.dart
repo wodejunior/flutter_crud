@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 class UserTile extends StatelessWidget {
   final User user;
+
   const UserTile(this.user);
 
   @override
@@ -21,7 +22,7 @@ class UserTile extends StatelessWidget {
       trailing: Container(
         width: 100,
         child: Row(
-          children: <Widget> [
+          children: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
               color: Colors.blue,
@@ -36,34 +37,31 @@ class UserTile extends StatelessWidget {
               icon: Icon(Icons.delete),
               color: Colors.red,
               onPressed: () {
-                showDialog(
+                showDialog<Widget>(
                   context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text('Excluir Usuário'),
-                      content: Text('Confirma a Exclusão?'),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Não'),
-                          onPressed: () {
-                            Navigator.of(context).pop(false);
-                          },
-                          ),
-                        FlatButton(
-                          child: Text('Sim'),
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
-                          },
-                        ),
-                      ],
-                    ),
-                ).then( (confimed) {
-                  if(confimed){
-                    Provider.of<Users>(context, listen: false).remove(user);
-                  }
-                });
+                  builder: (ctx) => AlertDialog(
+                    title: Text('Excluir Usuário'),
+                    content: Text('Confirma a exclusão?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Não'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }
+                      ),
+                      FlatButton(
+                        child: Text('Sim'),
+                        onPressed: () {
+                          Provider.of<Users>(context, listen: false).remove(user);
+                          Navigator.of(context).pop();
+                        }
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
-          ]
+          ],
         ),
       ),
     );
